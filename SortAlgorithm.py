@@ -18,7 +18,26 @@ def quick_sort1(arr):  # not in-place 방식
 
 
 def quick_sort2(arr):  # in-place 방식
-    pass
+    def sort(low, high):
+        if low >= high:
+            return
+        mid = partition(low, high)
+        sort(low, mid-1)
+        sort(mid, high)
+
+    def partition(low, high):
+        pivot = arr[(low+high)//2]
+        while low <= high:
+            while arr[low] < pivot:
+                low += 1
+            while arr[high] > pivot:
+                high -= 1
+            if low <= high:
+                arr[low], arr[high] = arr[high], arr[low]
+                low, high = low + 1, high - 1
+        return low
+    sort(0, len(arr)-1)
+    return arr
 
 
 def merge_sort1(arr):  # not in-place 방식
@@ -115,4 +134,4 @@ def selection_sort(arr):  # 매 단계 마다 최소 원소 값을 앞으로 스
         arr[i], arr[min_index] = arr[min_index], arr[i]
 
 
-print(merge_sort1(a))
+print(quick_sort2(a))
