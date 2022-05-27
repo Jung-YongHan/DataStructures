@@ -1,6 +1,3 @@
-a = [6, 5, 7, 9, 11, 4, 2, 8, 10, 20, 14, 1]
-
-
 # O(NlogN)
 def quick_sort1(arr):  # not in-place 방식
     if len(arr) <= 1:
@@ -65,7 +62,29 @@ def merge_sort2(arr):  # in-place 방식
 
 
 def heap_sort(arr):
-    pass
+
+    def heapify(arr, index, length):
+        largest = index
+        left_index = 2 * index + 1
+        right_index = 2 * index + 2
+
+        if left_index < length and arr[left_index] > arr[largest]:
+            largest = left_index
+        if right_index < length and arr[right_index] > arr[largest]:
+            largest = right_index
+        if largest != index:
+            arr[largest], arr[index] = arr[index], arr[largest]
+            heapify(arr, largest, length)
+
+    n = len(arr)
+    for i in range(n//2-1, -1, -1):  # heap-order
+        heapify(arr, i, n)
+
+    for j in range(n-1, 0, -1):  # swapping top with end
+        arr[0], arr[j] = arr[j], arr[0]
+        heapify(arr, 0, j)
+
+    return arr
 
 
 # -----------------------------------------------------------------------------------
@@ -134,4 +153,6 @@ def selection_sort(arr):  # 매 단계 마다 최소 원소 값을 앞으로 스
         arr[i], arr[min_index] = arr[min_index], arr[i]
 
 
-print(quick_sort2(a))
+if __name__ == '__main__':
+    a = [6, 5, 7, 9, 11, 4, 2, 8, 10, 20, 14, 1]
+    print(heap_sort(a))
